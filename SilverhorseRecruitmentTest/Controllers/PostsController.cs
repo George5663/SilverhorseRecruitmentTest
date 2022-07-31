@@ -46,7 +46,7 @@ namespace SilverhorseRecruitmentTest.Controllers
 
         //Add a specified post
         // POST: api/<PostsController>
-        [HttpGet("{id}")]
+        [HttpPost]
         [Authorize]
         public async Task<IActionResult> AddPost([FromBody] Posts post)
         {
@@ -71,7 +71,7 @@ namespace SilverhorseRecruitmentTest.Controllers
 
         //Update a specified post
         // PUT: api/<PostsController>/10
-        [HttpGet("{id}")]
+        [HttpPut("{id}")]
         [Authorize]
         public async Task<IActionResult> UpdatePost([FromBody] Posts post, int id)
         {
@@ -96,7 +96,7 @@ namespace SilverhorseRecruitmentTest.Controllers
 
         //Delete a specified post
         // DELETE: api/<PostsController>/10
-        [HttpGet("{id}")]
+        [HttpDelete("{id}")]
         [Authorize]
         public async Task<IActionResult> DeletePost(int id)
         {
