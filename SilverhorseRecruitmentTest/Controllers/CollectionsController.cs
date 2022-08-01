@@ -8,7 +8,7 @@ using System.Web;
 
 namespace SilverhorseRecruitmentTest.Controllers
 {
-    [Route("/collections")]
+    [Route("/collection")]
     public class CollectionsController : Controller
     {
         [HttpGet]

@@ -11,21 +11,21 @@ builder.Services.AddControllers();
 //Inspiration from https://stackoverflow.com/questions/43447688/setting-up-swagger-asp-net-core-using-the-authorization-headers-bearer
 builder.Services.AddEndpointsApiExplorer();
 //Adding the 'Bearer' authentication token
-builder.Services.AddSwaggerGen(bearer =>
+builder.Services.AddSwaggerGen(c =>
 {
-    bearer.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
-        Description = @"JWT Authorization header using the Bearer scheme. \r\n\r\n 
+        Description = @"JWT Authorization header using the Bearer scheme. 
                       Enter 'Bearer' [space] and then your token in the text input below.
-                      \r\n\r\nExample: 'Bearer 12345abcdef'",
+                      Example: 'Bearer 12345abcdef'",
         Name = "Authorization",
         In = ParameterLocation.Header,
         Type = SecuritySchemeType.ApiKey,
         Scheme = "Bearer"
     });
 
-    bearer.AddSecurityRequirement(new OpenApiSecurityRequirement()
-    {
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+      {
         {
           new OpenApiSecurityScheme
           {
@@ -45,7 +45,7 @@ builder.Services.AddSwaggerGen(bearer =>
 });
 
 // Add Custom Authentication
-builder.Services.AddAuthentication("BearerAuthentication").AddScheme<AuthenticationSchemeOptions, AuthenticationHandler>("BearerAuthentication", null);
+builder.Services.AddAuthentication("BearerAuthentication").AddScheme<AuthenticationSchemeOptions, CustomAuthenticationHandler>("BearerAuthentication", null);
 
 var app = builder.Build();
 
@@ -55,6 +55,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseAuthentication();
 
 app.UseHttpsRedirection();
 

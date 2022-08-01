@@ -7,11 +7,11 @@ using System.Text.Encodings.Web;
 namespace SilverhorseRecruitmentTest.Authentication
 {
     //Inspiration taken from https://dotnetcorecentral.com/blog/authentication-handler-in-asp-net-core/
-    public class AuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
+    public class CustomAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
     {
         private readonly IConfiguration config;
 
-        public AuthenticationHandler(
+        public CustomAuthenticationHandler(
             IOptionsMonitor<AuthenticationSchemeOptions> options,
             ILoggerFactory logger,
             UrlEncoder encoder,
@@ -24,20 +24,19 @@ namespace SilverhorseRecruitmentTest.Authentication
 
         protected override Task<AuthenticateResult> HandleAuthenticateAsync()
         {
-            string auth = Request.Headers["Authorization"].ToString();
+            var auth = Request.Headers["Authorization"].ToString();
 
             if(auth != null && auth.StartsWith("bearer", StringComparison.OrdinalIgnoreCase))
             {
-                var tokenIn = auth["Bearer ".Length..].Trim();
-                var token = config.GetValue<string>("Token");
+                var baseToken = config.GetValue<string>("Token");
+                var token = auth.Substring("Bearer ".Length).Trim();
 
                 //If tokens are the same, allow user to use programs
-                if(tokenIn == token)
+                if (token == baseToken)
                 {
-                    var claims = new List<Claim> { new Claim("name", token) };
-
-                    var identity = new ClaimsIdentity(claims, Scheme.Name);
-                    var principal = new System.Security.Principal.GenericPrincipal(identity, null);
+                    var claims = new List<Claim> { new Claim("name", token), new Claim(ClaimTypes.Role, "Admin") };
+                    var identity = new ClaimsIdentity(claims, "Bearer");
+                    var principal = new ClaimsPrincipal(identity);
                     var ticket = new AuthenticationTicket(principal, Scheme.Name);
                     return Task.FromResult(AuthenticateResult.Success(ticket));
                 }
