@@ -9,10 +9,10 @@ How to Run: Clone or download this zip in Visual Studio 2022 and run. Once runni
 
 Challenges: I'd never personally done any authenticating before, thus the Bearer authentication was slightly challenging<br />
 
-Known Issues: <br />
+Known Issues:
 
-      - Authentication does work, however It doesn't state when the passed in token is incorrect, and will always output 'approved' even if the password is incorrect<br />
+      - Authentication does work, however It doesn't state when the passed in token is incorrect, and will always output 'approved' even if the password is incorrect
       
-      - Authentication issues return 401 not 501<br />
+      - Authentication issues return 401 not 501
       
-      - Some of the posts CRUD works when it shouldn't (ie. trying to delete a post that doesn't exist)<br />
+      - Some of the posts CRUD works when it shouldn't (ie. trying to delete a post that doesn't exist)
