@@ -7,11 +7,11 @@ using System.Text.Encodings.Web;
 namespace SilverhorseRecruitmentTest.Authentication
 {
     //Inspiration taken from https://dotnetcorecentral.com/blog/authentication-handler-in-asp-net-core/
-    public class Authentication : AuthenticationHandler<AuthenticationSchemeOptions>
+    public class AuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
     {
         private readonly IConfiguration config;
 
-        public Authentication(
+        public AuthenticationHandler(
             IOptionsMonitor<AuthenticationSchemeOptions> options,
             ILoggerFactory logger,
             UrlEncoder encoder,
